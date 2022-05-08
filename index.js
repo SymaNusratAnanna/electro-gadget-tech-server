@@ -30,6 +30,12 @@ try {
       const query={_id: ObjectId(id)};
       const inventoryitem = await inventoryCollection.findOne(query);
       res.send(inventoryitem);
+    });
+
+    //post
+
+    app.post('/inventoryitem', async(req, res)=>{
+      const newInventory = req.body;
     })
 }
 finally{

@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require ('cors');
+const jwt = require('jsonwebtoken');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 require('dotenv').config();
 const port = process.env.port || 5000;
@@ -18,6 +19,20 @@ try {
     await client.connect();
     const inventoryCollection=client.db('electroGadgettech').collection('inventoryitem');
 
+//AUTH
+app.post('/login', async(req, res)=>{
+  const user= req.body;
+  const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET,{
+    expiresIn:'1d'
+  });
+   res.send({accessToken});
+
+})
+
+
+
+
+    // inventoryitem API
     app.get('/inventoryitem',async(req,res)=>{
       const query={};
       const cursor=inventoryCollection.find(query)
